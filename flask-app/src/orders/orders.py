@@ -72,4 +72,53 @@ def get_order_details(orderID):
     the_response.mimetype = 'application/json'
     return the_response
 
-# (put) change order details
+# (put) Update order details
+@orders.route('/orders/<orderID>', methods=['PUT'])
+def update_order(orderID):
+    # collecting data from the request object
+    the_data = request.json
+
+    # Extracting the variables to be updated
+    isComplete = the_data.get('isComplete')
+    tableNum = the_data.get('tableNum')
+    mealId = the_data.get('mealId')
+    preparerId = the_data.get('preparerId')
+
+    # Constructing the update query
+    query = 'UPDATE orders SET '
+    updates = []
+    if isComplete is not None:
+        updates.append('isComplete = "{}"'.format(isComplete))
+    if tableNum is not None:
+        updates.append('tableNum = "{}"'.format(tableNum))
+    if mealId is not None:
+        updates.append('mealId = "{}"'.format(mealId))
+    if preparerId is not None:
+        updates.append('preparerId = "{}"'.format(preparerId))
+    query += ', '.join(updates)
+    query += ' WHERE orderID = "{}"'.format(orderID)
+
+    current_app.logger.info(query)
+
+    # executing and committing the update statement
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return 'Order {} updated successfully!'.format(orderID)
+
+# (delete) Delete order
+@orders.route('/orders/<orderID>', methods=['DELETE'])
+def delete_order(orderID):
+    # Constructing the delete query
+    query = 'DELETE FROM orders WHERE orderID = "{}"'.format(orderID)
+
+    current_app.logger.info(query)
+
+    # executing and committing the delete statement
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return 'Order {} deleted successfully!'.format(orderID)
+
