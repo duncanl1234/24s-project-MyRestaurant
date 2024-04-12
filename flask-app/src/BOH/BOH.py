@@ -7,14 +7,14 @@ import json
 from src import db
 
 
-FOH_emp = Blueprint('FOH_emp', __name__)
+BOH_emp = Blueprint('BOH_emp', __name__)
 
-################ /FOH endpoint ################
-# (get) Get all FOH
-@FOH_emp.route('/FOH_emp', methods=['GET'])
+################ /BOH endpoint ################
+# (get) Get all BOH
+@BOH_emp.route('/BOH_emp', methods=['GET'])
 def get_employees():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from FOH_emp')
+    cursor.execute('select * from BOH_emp')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -25,8 +25,8 @@ def get_employees():
     the_response.mimetype = 'application/json'
     return the_response
 
-# (post) add a new FOH hire
-@FOH_emp.route('/FOH_emp', methods=['POST'])
+# (post) add a new BOH hire
+@BOH_emp.route('/BOH_emp', methods=['POST'])
 def add_new_hire():
 
     # collecting data from the request object 
@@ -34,18 +34,18 @@ def add_new_hire():
     current_app.logger.info(the_data)
 
     #extracting the variable
-    fohID = the_data['fohID']
-    fohSupervisorID = the_data['fohSupervisorID']
+    bohID = the_data['bohID']
+    bohSupervisorID = the_data['bohSupervisorID']
     payRate = the_data['payRate']
     endTime = the_data['endTime']
     startTime = the_data['startTime']
     fName = the_data['fName']
     lName = the_data['lName']
 
-    # Constructing the query
-    query = 'insert into FOH_emp (fohID, fohSupervisorID, payRate, endTime, startTime, fName, lName) values ("'
-    query += fohID + '", "'
-    query += fohSupervisorID + '", "'
+    # constructing the query
+    query = 'insert into BOH_emp (bohID, bohSupervisorID, payRate, endTime, startTime, fName, lName) values ("'
+    query += bohID + '", "'
+    query += bohSupervisorID + '", "'
     query += payRate + '", '
     query += endTime + '", '
     query += startTime + '", '
@@ -60,12 +60,12 @@ def add_new_hire():
 
     return 'Success!'
 
-################ /FOH_emp/{empID} endpoint ################
-# (get) Get an employee's info
-@FOH_emp.route('/FOH_emp/<empID>', methods=['GET'])
+################ /BOH_emp/{empID} endpoint ################
+# (GET) get an employee's info
+@BOH_emp.route('/BOH_emp/<empID>', methods=['GET'])
 def get_employee_info(empID):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from FOH_emp where id = {0}'.format(empID))
+    cursor.execute('select * from BOH_emp where id = {0}'.format(empID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -77,14 +77,14 @@ def get_employee_info(empID):
     return the_response
 
 # (PUT) Update employee info
-@FOH_emp.route('/FOH_emp/<empID>', methods=['PUT'])
+@BOH_emp.route('/BOH_emp/<empID>', methods=['PUT'])
 def update_employee_info(empID):
     try:
         employee_data = request.json
         
         cursor = db.get_db().cursor()
-        query = 'UPDATE FOH_emp SET fohSupervisorID=%s, payRate=%s, endTime=%s, startTime=%s, fName=%s, lName=%s WHERE fohID=%s'
-        cursor.execute(query, (employee_data['fohSupervisorID'], employee_data['payRate'], employee_data['endTime'], employee_data['startTime'], employee_data['fName'], employee_data['lName'], empID))
+        query = 'UPDATE BOH_emp SET bohSupervisorID=%s, payRate=%s, endTime=%s, startTime=%s, fName=%s, lName=%s WHERE bohID=%s'
+        cursor.execute(query, (employee_data['bohSupervisorID'], employee_data['payRate'], employee_data['endTime'], employee_data['startTime'], employee_data['fName'], employee_data['lName'], empID))
         
         if cursor.rowcount == 0:
             return jsonify({'error': 'Employee not found'}), 404
@@ -97,11 +97,11 @@ def update_employee_info(empID):
 
 
 # (DELETE) Delete data of fired employee
-@FOH_emp.route('/FOH_emp/<empID>', methods=['DELETE'])
+@BOH_emp.route('/BOH_emp/<empID>', methods=['DELETE'])
 def delete_employee(empID):
     try:
         cursor = db.get_db().cursor()
-        query = 'DELETE FROM FOH_emp WHERE fohID=%s'
+        query = 'DELETE FROM BOH_emp WHERE bohID=%s'
         cursor.execute(query, (empID,))
         
         if cursor.rowcount == 0:
@@ -112,8 +112,5 @@ def delete_employee(empID):
     except Exception as e:
         current_app.logger.error(str(e))
         return jsonify({'error': 'Internal Server Error'}), 500
-
-
-
-
-
+    
+    
