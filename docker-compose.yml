@@ -52,13 +52,13 @@ services:
     # webapp.  webapp user password is stored in a secret 
     # file as well. 
     environment:
-      MYSQL_USER: webapp
-      MYSQL_PASSWORD_FILE: /run/secrets/secret_db_pw
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/secret_db_root_pw
+      MYSQL_USER: root
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
     
     secrets:
-      - secret_db_pw
-      - secret_db_root_pw
+      - db_password
+      - db_root_password
 
   ##################################################################
   # configure the AppSmith container (borrowed directly from Appsmith)
