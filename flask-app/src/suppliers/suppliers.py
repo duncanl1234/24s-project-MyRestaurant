@@ -38,7 +38,7 @@ def add_new_supplier():
     # Constructing the query
     query = 'insert into suppliers (supplierID, name) values ("'
     query += supplierID + '", "'
-    query += name + '", "'
+    query += name + ')'
     current_app.logger.info(query)
 
     # executing and committing the insert statement 
