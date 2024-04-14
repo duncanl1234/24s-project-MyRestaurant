@@ -6,7 +6,7 @@ import json
 from src import db
 
 
-reservations = Blueprint('meals', __name__)
+reservations = Blueprint('reservations', __name__)
 
 ################ /reservations endpoint ################
 # (get) retrieve all reservations
