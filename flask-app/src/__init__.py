@@ -53,7 +53,6 @@ def create_app():
     app.register_blueprint(ingredients,    url_prefix='/i')
     app.register_blueprint(meals,    url_prefix='/m')
     app.register_blueprint(orders,    url_prefix='/o')
-    app.register_blueprint(BOH_emp,    url_prefix='/boh')
     app.register_blueprint(products,    url_prefix='/p')
     app.register_blueprint(reservations,    url_prefix='/r')
     app.register_blueprint(suppliers,    url_prefix='/s')
