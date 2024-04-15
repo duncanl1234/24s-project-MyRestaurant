@@ -113,3 +113,23 @@ def delete_employee(empID):
         return jsonify({'error': 'Internal Server Error'}), 500
     
     
+# (PUT) Update employee pay rate
+@BOH_emp.route('/BOH_emp/<empID>/payRate', methods=['PUT'])
+def update_employee_pay_rate(empID):
+    try:
+        # Get the new pay rate from the request JSON data
+        new_pay_rate = request.json.get('payRate')
+
+        cursor = db.get_db().cursor()
+        query = 'UPDATE BOH_emp SET payRate=%s WHERE bohID=%s'
+        cursor.execute(query, (new_pay_rate, empID))
+
+        if cursor.rowcount == 0:
+            return jsonify({'error': 'Employee not found'}), 404
+
+        db.get_db().commit()
+        return 'Pay rate updated successfully!', 200
+    except Exception as e:
+        current_app.logger.error(str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
+
