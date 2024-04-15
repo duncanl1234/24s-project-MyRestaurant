@@ -109,3 +109,27 @@ def delete_meal(mealId):
     db.get_db().commit()
 
     return 'Meal {} deleted successfully!'.format(mealId)
+
+
+# (POST) Add new menu item
+@meals.route('/meals', methods=['POST'])
+def add_new_meal():
+    try:
+        # Collecting data from the request object
+        data = request.json
+        mealId = data.get('mealId')
+        name = data.get('name')
+        price = data.get('price')
+
+        # Constructing the INSERT query
+        query = 'INSERT INTO meals (mealId, name, price) VALUES (%s, %s, %s)'
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (mealId, name, price))
+        db.get_db().commit()
+
+        return 'Meal added successfully!', 201
+    except Exception as e:
+        current_app.logger.error(str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+
