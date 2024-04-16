@@ -104,3 +104,22 @@ def delete_suppliers(supplierID):
     db.get_db().commit()
 
     return 'Supplier {} deleted successfully!'.format(supplierID)
+
+
+# (GET) see all products supplied by a specific supplier
+@suppliers.route('/suppliers/<supplierID>/products', methods=['GET'])
+def get_supplier_products(supplierID):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute('SELECT * FROM products WHERE supplierID = %s', (supplierID,))
+        row_headers = [x[0] for x in cursor.description]
+        json_data = []
+        theData = cursor.fetchall()
+        for row in theData:
+            json_data.append(dict(zip(row_headers, row)))
+        return jsonify(json_data), 200
+    except Exception as e:
+        current_app.logger.error(str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+

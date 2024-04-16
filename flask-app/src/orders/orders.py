@@ -1,6 +1,5 @@
 ########################################################
 # Sample orders blueprint of endpoints
-# Remove this file if you are not using it in your project
 ########################################################
 from flask import Blueprint, request, jsonify, make_response, current_app
 import json
@@ -121,4 +120,22 @@ def delete_order(orderID):
     db.get_db().commit()
 
     return 'Order {} deleted successfully!'.format(orderID)
+
+
+# (GET) Get all orders for a specific table
+@orders.route('/orders/table/<tableNum>', methods=['GET'])
+def get_orders_by_table(tableNum):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute('SELECT * FROM orders WHERE tableNum = %s', (tableNum,))
+        row_headers = [x[0] for x in cursor.description]
+        json_data = []
+        theData = cursor.fetchall()
+        for row in theData:
+            json_data.append(dict(zip(row_headers, row)))
+        return jsonify(json_data), 200
+    except Exception as e:
+        current_app.logger.error(str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
+
 

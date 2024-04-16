@@ -1,6 +1,5 @@
 ########################################################
 # Sample orders blueprint of endpoints
-# Remove this file if you are not using it in your project
 ########################################################
 from flask import Blueprint, request, jsonify, make_response, current_app
 import json
@@ -114,6 +113,25 @@ def delete_employee(empID):
         return jsonify({'error': 'Internal Server Error'}), 500
 
 
+# (PUT) Update employee pay rate
+@FOH_emp.route('/FOH_emp/<empID>/payRate', methods=['PUT'])
+def update_employee_pay_rate(empID):
+    try:
+        # get the new pay rate from the request JSON data
+        new_pay_rate = request.json.get('payRate')
+
+        cursor = db.get_db().cursor()
+        query = 'UPDATE FOH_emp SET payRate=%s WHERE fohID=%s'
+        cursor.execute(query, (new_pay_rate, empID))
+
+        if cursor.rowcount == 0:
+            return jsonify({'error': 'Employee not found'}), 404
+
+        db.get_db().commit()
+        return 'Pay rate updated successfully!', 200
+    except Exception as e:
+        current_app.logger.error(str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
 
 
 

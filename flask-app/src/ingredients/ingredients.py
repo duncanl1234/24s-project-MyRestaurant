@@ -73,3 +73,64 @@ def delete_ingredient(IngredientId):
     db.get_db().commit()
 
     return 'Order {} deleted successfully!'.format(IngredientId)
+
+
+# (POST) Add a new ingredient
+@ingredients.route('/ingredients', methods=['POST'])
+def add_ingredient():
+    try:
+        # Get data from the request object
+        data = request.json
+        name = data.get('name')
+        supply = data.get('supply')
+        supplierID = data.get('supplierID')
+        mealId = data.get('mealId')
+
+        # Construct the INSERT query
+        query = 'INSERT INTO ingredients (name, supply, supplierID, mealId) VALUES (%s, %s, %s, %s)'
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (name, supply, supplierID, mealId))
+        db.get_db().commit()
+
+        return 'Ingredient added successfully!', 201
+    except Exception as e:
+        current_app.logger.error(str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+
+
+# (GET) Retrieve all ingredients
+@ingredients.route('/ingredients', methods=['GET'])
+def get_all_ingredients():
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute('SELECT * FROM ingredients')
+        row_headers = [x[0] for x in cursor.description]
+        json_data = []
+        theData = cursor.fetchall()
+        for row in theData:
+            json_data.append(dict(zip(row_headers, row)))
+        return jsonify(json_data), 200
+    except Exception as e:
+        current_app.logger.error(str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+
+
+# (GET) Retrieve all ingredients from a specific supplier
+@ingredients.route('/ingredients/supplier/<supplierId>', methods=['GET'])
+def get_ingredients_by_supplier(supplierId):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute('SELECT * FROM ingredients WHERE supplierID = %s', (supplierId,))
+        row_headers = [x[0] for x in cursor.description]
+        json_data = []
+        theData = cursor.fetchall()
+        for row in theData:
+            json_data.append(dict(zip(row_headers, row)))
+        return jsonify(json_data), 200
+    except Exception as e:
+        current_app.logger.error(str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+
