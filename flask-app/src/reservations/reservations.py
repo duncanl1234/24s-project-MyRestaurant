@@ -124,3 +124,21 @@ def delete_reservation(resID):
     db.get_db().commit()
 
     return 'Reservation {} deleted successfully!'.format(resID)
+
+
+# (GET) retrieve reservations based on reservation date
+@reservations.route('/reservations/date/<reservationDate>', methods=['GET'])
+def get_reservations_by_date(reservationDate):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute('SELECT * FROM reservations WHERE reservationDate = %s', (reservationDate,))
+        row_headers = [x[0] for x in cursor.description]
+        json_data = []
+        theData = cursor.fetchall()
+        for row in theData:
+            json_data.append(dict(zip(row_headers, row)))
+        return jsonify(json_data), 200
+    except Exception as e:
+        current_app.logger.error(str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
+
