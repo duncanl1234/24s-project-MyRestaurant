@@ -93,7 +93,7 @@ create table SupplierOrder_Ingredients (
 );
 
 -- Bridge table for Meals-Ingredients relationship
-create table Meals_Ingredients (
+create table Meal_Ingredients (
     mealId char(6),
     ingredientId char(8),
     primary key (mealId, ingredientId),
@@ -500,7 +500,7 @@ insert into Reservations (resID, numPeople, phone, fName, lName, tableNum) value
 insert into Reservations (resID, numPeople, phone, fName, lName, tableNum) values ('2521', 17, '983-813-8264', 'Morty', 'Padrick', 17);
 
 insert into Ingredients (ingredientId, supply, name, supplierID, mealId) values ('2408', 158, 'Catfish - Fillets', '7048', '8508');
-insert into Ingredients (ingredientId, supply, name, supplierID, mealId) values ('5201', 131, 'Squash - Acorn', '7048, 8508');
+insert into Ingredients (ingredientId, supply, name, supplierID, mealId) values ('5201', 131, 'Squash - Acorn', '7048', '8508');
 insert into Ingredients (ingredientId, supply, name, supplierID, mealId) values ('8865', 85, 'Wine - Two Oceans Cabernet', '7048', '8508');
 insert into Ingredients (ingredientId, supply, name, supplierID, mealId) values ('2013', 73, 'Pepper - Jalapeno', '7048', '8508');
 insert into Ingredients (ingredientId, supply, name, supplierID, mealId) values ('1958', 82, 'Pie Shells 10', '7048', '8508');
