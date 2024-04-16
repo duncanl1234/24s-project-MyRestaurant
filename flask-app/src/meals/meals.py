@@ -13,7 +13,7 @@ meals = Blueprint('meals', __name__)
 @meals.route('/meals', methods=['GET'])
 def get_meals():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from meals')
+    cursor.execute('select * from Meals')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()

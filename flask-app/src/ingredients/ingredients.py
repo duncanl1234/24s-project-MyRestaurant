@@ -104,7 +104,7 @@ def add_ingredient():
 def get_all_ingredients():
     try:
         cursor = db.get_db().cursor()
-        cursor.execute('SELECT * FROM ingredients')
+        cursor.execute('SELECT * FROM Ingredients')
         row_headers = [x[0] for x in cursor.description]
         json_data = []
         theData = cursor.fetchall()

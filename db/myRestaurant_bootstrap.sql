@@ -1,7 +1,6 @@
 -- bootstrap file for MyRestaurant db -------------------
 -- CS3200 Project Phase 2
 -- 4/2/24
-
 -- create db
 create database myRestaurant;
 
@@ -15,12 +14,6 @@ create database myRestaurant;
 use myRestaurant;
 
 -- create DDL
-create table Tables (
-    tableNum int primary key        not null,
-    numSeats int                    not null,
-    isReserved boolean              not null,
-    fohId char(9)                   not null
-);
 
 create table Meals (
     mealId char(6) primary key      not null,
@@ -53,6 +46,14 @@ create table FOH_emp (
     payRate int                     not null,
     fohSupervisorId char(9),
     foreign key (fohSupervisorId) references FOH_emp (fohId)
+);
+
+create table Tables (
+    tableNum int primary key        not null,
+    numSeats int                    not null,
+    isReserved boolean              not null,
+    fohId char(9)                   not null,
+    foreign key (fohId) references FOH_emp (fohId)
 );
 
 create table Reservations (
@@ -121,79 +122,9 @@ create table Orders_Meals (
     foreign key (mealId) references Meals (mealId)
 );
 
-alter table FOH_emp
-add constraint FK_FOHOrderTable
-foreign key (fohId) references Tables (fohId);
-
-alter table Tables
-add constraint FK_TableFOHOrder
-foreign key (fohId) references FOH_emp (fohId);
-
 show tables;
 
 -- inserting in random data
-
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (1, 4, true, '9102');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (2, 2, true, '6698');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (3, 8, false, '4140');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (4, 5, true, '7519');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (5, 2, false, '1452');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (6, 10, true, '6812');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (7, 10, false, '9434');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (8, 9, false, '1984');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (9, 4, true, '9666');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (10, 5, true, '2484');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (11, 1, false, '9496');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (12, 5, true, '7524');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (13, 7, true, '4410');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (14, 5, true, '4755');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (15, 8, false, '7831');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (16, 2, true, '7338');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (17, 2, true, '1944');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (18, 7, false, '7945');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (19, 7, true, '4006');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (20, 2, false, '9571');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (21, 2, false, '3087');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (22, 9, false, '9848');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (23, 2, true, '7835');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (24, 10, true, '1576');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (25, 4, false, '1464');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (26, 7, false, '1265');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (27, 1, false, '2254');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (28, 2, false, '7251');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (29, 3, false, '9322');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (30, 4, true, '2513');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (31, 6, true, '1157');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (32, 10, true, '5707');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (33, 5, false, '9577');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (34, 4, false, '5640');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (35, 6, false, '2418');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (36, 9, false, '8585');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (37, 5, true, '3016');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (38, 8, true, '9979');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (39, 7, true, '2807');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (40, 9, false, '9023');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (41, 4, true, '6038');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (42, 4, true, '9966');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (43, 2, false, '7192');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (44, 6, false, '5231');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (45, 6, false, '3188');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (46, 3, true, '3067');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (47, 10, true, '5030');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (48, 3, false, '5019');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (49, 4, false, '9238');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (50, 3, true, '6887');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (51, 9, true, '6789');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (52, 5, true, '6013');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (53, 4, true, '8893');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (54, 3, true, '6350');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (55, 2, false, '6446');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (56, 7, true, '7433');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (57, 7, false, '9601');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (58, 2, false, '4305');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (59, 6, true, '5639');
-insert into Tables (tableNum, numSeats, isReserved, fohId) values (60, 6, true, '3926');
-
 insert into Meals (mealId, name, price) values ('8508', 'Caesar Salad', 32.16);
 insert into Meals (mealId, name, price) values ('9312', 'House Salad', 29.05);
 insert into Meals (mealId, name, price) values ('1895', 'Wedge Salad', 31.17);
@@ -210,7 +141,7 @@ insert into Meals (mealId, name, price) values ('4792', 'Ragu Rigatoni', 49.28);
 insert into Meals (mealId, name, price) values ('6755', 'Chicken Nuggets', 62.26);
 insert into Meals (mealId, name, price) values ('7604', 'French Fries', 13.42);
 insert into Meals (mealId, name, price) values ('1498', 'Steak Diane', 55.49);
-insert into Meals (mealId, name, price) values ('7604', 'Hamburger', 62.61);
+insert into Meals (mealId, name, price) values ('7601', 'Hamburger', 62.61);
 insert into Meals (mealId, name, price) values ('3588', 'Cheeseburger', 63.95);
 insert into Meals (mealId, name, price) values ('6875', 'Artisan Burger', 48.45);
 insert into Meals (mealId, name, price) values ('3845', 'Truffle Burger', 43.75);
@@ -377,9 +308,9 @@ insert into BOH_emp (bohID, fName, lName, startTime, endTime, payRate, bohSuperv
 insert into BOH_emp (bohID, fName, lName, startTime, endTime, payRate, bohSupervisorId) values ('5095', 'Karney', 'Cattermull', '11:43 AM', '4:30 PM', 11.27, '8857');
 insert into BOH_emp (bohID, fName, lName, startTime, endTime, payRate, bohSupervisorId) values ('5622', 'Ashleigh', 'Deinhard', '9:11 PM', '4:05 AM', 12.23, '8857');
 
-insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (2036, 'Leslie', 'Hauxwell', '10:38 AM', '3:36 PM', 25.32, 2036);
-insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (9910, 'Daniel', 'Newbold', '3:04 PM', '10:31 PM', 18.33, 2036);
-insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (7420, 'Hussein', 'Mushart', '3:21 PM', '4:07 PM', 10.63, 2036);
+insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (2036, 'Leslie', 'Hauxwell', '10:38 AM', '3:36 PM', 25.32);
+insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (9910, 'Daniel', 'Newbold', '3:04 PM', '10:31 PM', 18.33);
+insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (7420, 'Hussein', 'Mushart', '3:21 PM', '4:07 PM', 10.63);
 insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (2127, 'Rollin', 'Draxford', '11:57 PM', '5:18 AM', 21.26, 2036);
 insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (7409, 'Sigismondo', 'Montacute', '9:01 PM', '8:15 PM', 14.62, 2036);
 insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (2116, 'Jeanie', 'Gerant', '5:37 PM', '6:48 PM', 24.36, 2036);
@@ -437,6 +368,67 @@ insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSuperv
 insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (5390, 'Duffie', 'Daoust', '1:41 AM', '5:03 AM', 10.16, 2036);
 insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (9709, 'Marlena', 'Milesop', '11:46 AM', '7:16 AM', 24.36, 2036);
 insert into FOH_emp (fohID, fName, lName, startTime, endTime, payRate, fohSupervisorId) values (6917, 'Dedie', 'O''Dogherty', '12:36 AM', '2:13 AM', 26.83, 2036);
+
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (1, 4, true, '9102');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (2, 2, true, '6698');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (3, 8, false, '4140');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (4, 5, true, '7519');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (5, 2, false, '1452');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (6, 10, true, '6812');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (7, 10, false, '9434');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (8, 9, false, '1984');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (9, 4, true, '9666');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (10, 5, true, '2484');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (11, 1, false, '9496');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (12, 5, true, '7524');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (13, 7, true, '4410');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (14, 5, true, '4755');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (15, 8, false, '7831');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (16, 2, true, '7338');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (17, 2, true, '1944');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (18, 7, false, '7945');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (19, 7, true, '4006');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (20, 2, false, '9571');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (21, 2, false, '3087');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (22, 9, false, '9848');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (23, 2, true, '7835');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (24, 10, true, '1576');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (25, 4, false, '1464');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (26, 7, false, '1265');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (27, 1, false, '2254');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (28, 2, false, '7251');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (29, 3, false, '9322');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (30, 4, true, '2513');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (31, 6, true, '1157');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (32, 10, true, '5707');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (33, 5, false, '9577');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (34, 4, false, '5640');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (35, 6, false, '2418');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (36, 9, false, '8585');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (37, 5, true, '3016');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (38, 8, true, '9979');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (39, 7, true, '2807');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (40, 9, false, '9023');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (41, 4, true, '6038');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (42, 4, true, '9966');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (43, 2, false, '7192');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (44, 6, false, '5231');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (45, 6, false, '3188');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (46, 3, true, '3067');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (47, 10, true, '5030');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (48, 3, false, '5019');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (49, 4, false, '9238');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (50, 3, true, '6887');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (51, 9, true, '6789');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (52, 5, true, '6013');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (53, 4, true, '8893');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (54, 3, true, '6350');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (55, 2, false, '6446');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (56, 7, true, '7433');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (57, 7, false, '9601');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (58, 2, false, '4305');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (59, 6, true, '5639');
+insert into Tables (tableNum, numSeats, isReserved, fohId) values (60, 6, true, '3926');
 
 insert into Reservations (resID, numPeople, phone, fName, lName, tableNum) values ('3346', 18, '988-623-4940', 'Rufe', 'Grunson', 15);
 insert into Reservations (resID, numPeople, phone, fName, lName, tableNum) values ('2645', 17, '574-843-7060', 'Ailis', 'Lorant', 46);
