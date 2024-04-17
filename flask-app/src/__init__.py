@@ -35,6 +35,7 @@ def create_app():
     # Import the various Beluprint Objects
     from src.BOH.BOH import BOH_emp
     from src.FOH.FOH import FOH_emp
+    from src.Meal_Ingredients.Meal_Ingredients import Meal_Ingredients
     from src.ingredients.ingredients import ingredients
     from src.meals.meals import meals
     from src.orders.orders import orders
@@ -42,12 +43,14 @@ def create_app():
     from src.suppliers.suppliers import suppliers
     from src.tables.tables import tables
     from src.supplyOrder.supplyOrder import supplyOrder
+    from src.SupplierOrder_Ingredients.SupplierOrder_Ingredients import SupplierOrder_Ingredients
 
 
     # Register the routes from each Blueprint with the app object
     # and give a url prefix to each
     app.register_blueprint(BOH_emp,    url_prefix='/boh')
     app.register_blueprint(FOH_emp,    url_prefix='/foh')
+    app.register_blueprint(Meal_Ingredients, url_prefix='/mi')
     app.register_blueprint(ingredients,    url_prefix='/i')
     app.register_blueprint(meals,    url_prefix='/m')
     app.register_blueprint(orders,    url_prefix='/o')
@@ -55,6 +58,7 @@ def create_app():
     app.register_blueprint(suppliers,    url_prefix='/s')
     app.register_blueprint(tables,    url_prefix='/t')
     app.register_blueprint(supplyOrder,     url_prefix='/so')
+    app.register_blueprint(SupplierOrder_Ingredients,     url_prefix='/soi')
 
 
     # Don't forget to return the app object
