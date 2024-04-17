@@ -37,11 +37,8 @@ def create_app():
     from src.FOH.FOH import FOH_emp
     from src.ingredients.ingredients import ingredients
     from src.meals.meals import meals
-    from src.Meals_Ingredients.Meals_Ingredients import Meals_Ingredients
     from src.orders.orders import orders
-    from src.Orders_Meals.Orders_Meals import Orders_Meals
     from src.reservations.reservations import reservations
-    from src.SupplierOrder_Ingredients.SupplierOrder_Ingredients import SupplierOrder_Ingredients
     from src.suppliers.suppliers import suppliers
     from src.tables.tables import tables
     from src.supplyOrder.supplyOrder import supplyOrder
@@ -53,11 +50,8 @@ def create_app():
     app.register_blueprint(FOH_emp,    url_prefix='/foh')
     app.register_blueprint(ingredients,    url_prefix='/i')
     app.register_blueprint(meals,    url_prefix='/m')
-    app.register_blueprint(Meals_Ingredients,       url_prefix='/mi')
     app.register_blueprint(orders,    url_prefix='/o')
-    app.register_blueprint(Orders_Meals,    url_prefix='/om')
     app.register_blueprint(reservations,    url_prefix='/r')
-    app.register_blueprint(SupplierOrder_Ingredients,    url_prefix='/soi')
     app.register_blueprint(suppliers,    url_prefix='/s')
     app.register_blueprint(tables,    url_prefix='/t')
     app.register_blueprint(supplyOrder,     url_prefix='/so')
