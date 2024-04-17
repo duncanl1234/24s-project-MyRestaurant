@@ -304,7 +304,7 @@ insert into FOH_emp (fohId, fName, lName, startTime, endTime, payRate, fohSuperv
 insert into FOH_emp (fohId, fName, lName, startTime, endTime, payRate, fohSupervisorId) values ('6575', 'Brana', 'Fawley', '7:32:31', '19:12:19', 65.74, '5876');
 insert into FOH_emp (fohId, fName, lName, startTime, endTime, payRate, fohSupervisorId) values ('5824', 'Marcos', 'Perryman', '3:01:06', '18:51:20', 24.93, '5876');
 insert into FOH_emp (fohId, fName, lName, startTime, endTime, payRate, fohSupervisorId) values ('1204', 'Carter', 'Soppit', '3:01:12', '0:11:44', 96.27, '5876');
-insert into FOH_emp (fohId, fName, lName, startTime, endTime, payRate, fohSupervisorId) values ('6575', 'Lois', 'Korfmann', '5:47:46', '19:31:56', 46.73, '5876');
+insert into FOH_emp (fohId, fName, lName, startTime, endTime, payRate, fohSupervisorId) values ('6576', 'Lois', 'Korfmann', '5:47:46', '19:31:56', 46.73, '5876');
 insert into FOH_emp (fohId, fName, lName, startTime, endTime, payRate, fohSupervisorId) values ('7360', 'Cristobal', 'Brogini', '18:19:35', '7:58:43', 70.85, '5876');
 insert into FOH_emp (fohId, fName, lName, startTime, endTime, payRate, fohSupervisorId) values ('4726', 'Theressa', 'Fellos', '17:14:42', '6:22:57', 40.86, '5876');
 insert into FOH_emp (fohId, fName, lName, startTime, endTime, payRate, fohSupervisorId) values ('7784', 'Carly', 'Karolyi', '23:10:40', '22:22:10', 11.80, '5876');
