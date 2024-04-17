@@ -37,7 +37,7 @@ def add_new_table():
     price = the_data['price']
 
     # Constructing the query
-    query = 'insert into meals (mealId, name, price) values ("'
+    query = 'insert into Meals (mealId, name, price) values ("'
     query += mealId + '", "'
     query += name + '", "'
     query += str(price) + ')'
