@@ -55,7 +55,7 @@ def add_new_table():
 @meals.route('/meals/<mealId>', methods=['GET'])
 def get_mealId(mealId):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from Meals where id = {0}'.format(mealId))
+    cursor.execute('select * from Meals where mealId = {0}'.format(mealId))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
