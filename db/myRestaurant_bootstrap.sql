@@ -30,8 +30,8 @@ create table BOH_emp (
     bohID char(9) primary key       not null,
     fName varchar(40)               not null,
     lName varchar(40)               not null,
-    startTime time,
-    endTime time,
+    startTime varchar(20),
+    endTime varchar(20),
     payRate int                     not null,
     bohSupervisorId char(9),
     foreign key (bohSupervisorId) references BOH_emp (bohId)
@@ -41,8 +41,8 @@ create table FOH_emp (
     fohId char(9) primary key       not null,
     fName varchar(40)               not null,
     lName varchar(40)               not null,
-    startTime time,
-    endTime time,
+    startTime varchar(20),
+    endTime varchar(20),
     payRate int                     not null,
     fohSupervisorId char(9),
     foreign key (fohSupervisorId) references FOH_emp (fohId)
