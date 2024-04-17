@@ -247,7 +247,7 @@ insert into Suppliers (supplierId, name) values ('8330', 'Fiveclub');
 insert into Suppliers (supplierId, name) values ('3157', 'Thoughtblab');
 insert into Suppliers (supplierId, name) values ('3553', 'Flashpoint');
 
-insert into BOH_emp (bohId, fName, lName, startTime, endTime, payRate, bohSupervisorId) values ('4498', 'Calypso', 'Grigorey', '15:17:46', '2:14:58', 32.53, '8857');
+insert into BOH_emp (bohId, fName, lName, startTime, endTime, payRate, bohSupervisorId) values ('8857', 'Calypso', 'Grigorey', '15:17:46', '2:14:58', 32.53, '8857');
 insert into BOH_emp (bohId, fName, lName, startTime, endTime, payRate, bohSupervisorId) values ('7704', 'Towny', 'Chart', '1:41:10', '22:13:23', 99.08, '8857');
 insert into BOH_emp (bohId, fName, lName, startTime, endTime, payRate, bohSupervisorId) values ('5264', 'Wynn', 'Dawidowitz', '4:58:50', '6:05:15', 55.28, '8857');
 insert into BOH_emp (bohId, fName, lName, startTime, endTime, payRate, bohSupervisorId) values ('7335', 'Dionis', 'Dominec', '2:15:54', '8:54:42', 19.52, '8857');
