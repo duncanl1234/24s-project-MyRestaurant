@@ -44,6 +44,7 @@ def create_app():
     from src.SupplierOrder_Ingredients.SupplierOrder_Ingredients import SupplierOrder_Ingredients
     from src.suppliers.suppliers import suppliers
     from src.tables.tables import tables
+    from src.supplyOrder.supplyOrder import supplyOrder
 
 
     # Register the routes from each Blueprint with the app object
@@ -59,6 +60,7 @@ def create_app():
     app.register_blueprint(SupplierOrder_Ingredients,    url_prefix='/soi')
     app.register_blueprint(suppliers,    url_prefix='/s')
     app.register_blueprint(tables,    url_prefix='/t')
+    app.register_blueprint(supplyOrder,     url_prefix='/so')
 
 
     # Don't forget to return the app object

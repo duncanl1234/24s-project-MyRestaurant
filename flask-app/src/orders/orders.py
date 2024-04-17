@@ -13,7 +13,7 @@ orders = Blueprint('orders', __name__)
 @orders.route('/orders', methods=['GET'])
 def get_orders():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from orders')
+    cursor.execute('select * from Orders')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -40,7 +40,7 @@ def add_new_order():
     preparerId = the_data['preparerId']
 
     # Constructing the query
-    query = 'insert into orders (orderID, isComplete, tableNum, mealId, preparerId) values ("'
+    query = 'insert into Orders (orderID, isComplete, tableNum, mealId, preparerId) values ("'
     query += orderID + '", "'
     query += str(isComplete) + '", "'
     query += str(tableNum) + '", '
@@ -60,7 +60,7 @@ def add_new_order():
 @orders.route('/orders/<orderID>', methods=['GET'])
 def get_order_details(orderID):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from orders where id = {0}'.format(orderID))
+    cursor.execute('select * from Orders where id = {0}'.format(orderID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -84,7 +84,7 @@ def update_order(orderID):
     preparerId = the_data.get('preparerId')
 
     # Constructing the update query
-    query = 'UPDATE orders SET '
+    query = 'UPDATE Orders SET '
     updates = []
     if isComplete is not None:
         updates.append('isComplete = "{}"'.format(isComplete))
@@ -110,7 +110,7 @@ def update_order(orderID):
 @orders.route('/orders/<orderID>', methods=['DELETE'])
 def delete_order(orderID):
     # Constructing the delete query
-    query = 'DELETE FROM orders WHERE orderID = "{}"'.format(orderID)
+    query = 'DELETE FROM Orders WHERE orderID = "{}"'.format(orderID)
 
     current_app.logger.info(query)
 
@@ -127,7 +127,7 @@ def delete_order(orderID):
 def get_orders_by_table(tableNum):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute('SELECT * FROM orders WHERE tableNum = %s', (tableNum,))
+        cursor.execute('SELECT * FROM Orders WHERE tableNum = %s', (tableNum,))
         row_headers = [x[0] for x in cursor.description]
         json_data = []
         theData = cursor.fetchall()

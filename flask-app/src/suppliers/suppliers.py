@@ -13,7 +13,7 @@ suppliers = Blueprint('suppliers', __name__)
 @suppliers.route('/suppliers', methods=['GET'])
 def get_suppliers():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from suppliers')
+    cursor.execute('select * from Suppliers')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -36,7 +36,7 @@ def add_new_supplier():
     name = the_data['name']
 
     # Constructing the query
-    query = 'insert into suppliers (supplierID, name) values ("'
+    query = 'insert into Suppliers (supplierID, name) values ("'
     query += supplierID + '", "'
     query += name + ')'
     current_app.logger.info(query)
@@ -53,7 +53,7 @@ def add_new_supplier():
 @suppliers.route('/suppliers/<supplierID>', methods=['GET'])
 def get_supplierID(supplierID):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from suppliers where id = {0}'.format(supplierID))
+    cursor.execute('select * from Suppliers where id = {0}'.format(supplierID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -74,7 +74,7 @@ def update_supplier(supplierID):
     name = the_data.get('name')
 
     # Constructing the update query
-    query = 'UPDATE suppliers SET '
+    query = 'UPDATE Suppliers SET '
     updates = []
     if name is not None:
         updates.append('name = "{}"'.format(name))
@@ -94,7 +94,7 @@ def update_supplier(supplierID):
 @suppliers.route('/suppliers/<supplierID>', methods=['DELETE'])
 def delete_suppliers(supplierID):
     # Constructing the delete query
-    query = 'DELETE FROM suppliers WHERE supplierID = "{}"'.format(supplierID)
+    query = 'DELETE FROM Suppliers WHERE supplierID = "{}"'.format(supplierID)
 
     current_app.logger.info(query)
 
@@ -111,7 +111,7 @@ def delete_suppliers(supplierID):
 def get_supplier_products(supplierID):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute('SELECT * FROM products WHERE supplierID = %s', (supplierID,))
+        cursor.execute('SELECT * FROM Products WHERE supplierID = %s', (supplierID,))
         row_headers = [x[0] for x in cursor.description]
         json_data = []
         theData = cursor.fetchall()

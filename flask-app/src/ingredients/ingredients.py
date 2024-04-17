@@ -13,7 +13,7 @@ ingredients = Blueprint('ingredients', __name__)
 @ingredients.route('/ingredients/<ingredientId>', methods=['GET'])
 def get_ingredientId(IngredientId):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from ingredients where id = {0}'.format(IngredientId))
+    cursor.execute('select * from Ingredients where id = {0}'.format(IngredientId))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -37,7 +37,7 @@ def update_ingredient(IngredientId):
     mealId = the_data.get('mealId')
 
     # Constructing the update query
-    query = 'UPDATE ingredients SET '
+    query = 'UPDATE Ingredients SET '
     updates = []
     if supply is not None:
         updates.append('supply = "{}"'.format(supply))
@@ -63,7 +63,7 @@ def update_ingredient(IngredientId):
 @ingredients.route('/Ingredients/<IngredientId>', methods=['DELETE'])
 def delete_ingredient(IngredientId):
     # Constructing the delete query
-    query = 'DELETE FROM ingredients WHERE IngredientId = "{}"'.format(IngredientId)
+    query = 'DELETE FROM Ingredients WHERE IngredientId = "{}"'.format(IngredientId)
 
     current_app.logger.info(query)
 
@@ -87,7 +87,7 @@ def add_ingredient():
         mealId = data.get('mealId')
 
         # Construct the INSERT query
-        query = 'INSERT INTO ingredients (name, supply, supplierID, mealId) VALUES (%s, %s, %s, %s)'
+        query = 'INSERT INTO Ingredients (name, supply, supplierID, mealId) VALUES (%s, %s, %s, %s)'
         cursor = db.get_db().cursor()
         cursor.execute(query, (name, supply, supplierID, mealId))
         db.get_db().commit()
@@ -122,7 +122,7 @@ def get_all_ingredients():
 def get_ingredients_by_supplier(supplierId):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute('SELECT * FROM ingredients WHERE supplierID = %s', (supplierId,))
+        cursor.execute('SELECT * FROM Ingredients WHERE supplierID = %s', (supplierId,))
         row_headers = [x[0] for x in cursor.description]
         json_data = []
         theData = cursor.fetchall()

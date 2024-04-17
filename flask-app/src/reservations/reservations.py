@@ -13,7 +13,7 @@ reservations = Blueprint('reservations', __name__)
 @reservations.route('/reservations', methods=['GET'])
 def get_reservations():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from reservations')
+    cursor.execute('select * from Reservations')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -40,7 +40,7 @@ def add_new_reservation():
     tableNum = the_data['tableNum']
 
     # Constructing the query
-    query = 'insert into reservations (resID, numPeople, phone, fname, lname, tableNum) values ("'
+    query = 'insert into Reservations (resID, numPeople, phone, fname, lname, tableNum) values ("'
     query += resID + '", "'
     query += str(numPeople) + '", "'
     query += phone + '", "'
@@ -61,7 +61,7 @@ def add_new_reservation():
 @reservations.route('/reservations/<resID>', methods=['GET'])
 def get_resID(resID):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from reservations where id = {0}'.format(resID))
+    cursor.execute('select * from Reservations where id = {0}'.format(resID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -86,7 +86,7 @@ def update_reservation(resID):
     tableNum = the_data.get('tableNum')
 
     # Constructing the update query
-    query = 'UPDATE reservations SET '
+    query = 'UPDATE Reservations SET '
     updates = []
     if numPeople is not None:
         updates.append('name = "{}"'.format(numPeople))
@@ -114,7 +114,7 @@ def update_reservation(resID):
 @reservations.route('/reservations/<resID>', methods=['DELETE'])
 def delete_reservation(resID):
     # Constructing the delete query
-    query = 'DELETE FROM reservations WHERE mealId = "{}"'.format(resID)
+    query = 'DELETE FROM Reservations WHERE mealId = "{}"'.format(resID)
 
     current_app.logger.info(query)
 
@@ -131,7 +131,7 @@ def delete_reservation(resID):
 def get_reservations_by_date(reservationDate):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute('SELECT * FROM reservations WHERE reservationDate = %s', (reservationDate,))
+        cursor.execute('SELECT * FROM Reservations WHERE reservationDate = %s', (reservationDate,))
         row_headers = [x[0] for x in cursor.description]
         json_data = []
         theData = cursor.fetchall()

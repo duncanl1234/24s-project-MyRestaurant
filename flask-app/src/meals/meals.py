@@ -55,7 +55,7 @@ def add_new_table():
 @meals.route('/meals/<mealId>', methods=['GET'])
 def get_mealId(mealId):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from ingredients where id = {0}'.format(mealId))
+    cursor.execute('select * from Meals where id = {0}'.format(mealId))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -77,7 +77,7 @@ def update_ingredient(mealId):
     price = the_data.get('price')
 
     # Constructing the update query
-    query = 'UPDATE meals SET '
+    query = 'UPDATE Meals SET '
     updates = []
     if name is not None:
         updates.append('name = "{}"'.format(name))
@@ -99,7 +99,7 @@ def update_ingredient(mealId):
 @meals.route('/meals/<mealId>', methods=['DELETE'])
 def delete_meal(mealId):
     # Constructing the delete query
-    query = 'DELETE FROM meals WHERE mealId = "{}"'.format(mealId)
+    query = 'DELETE FROM Meals WHERE mealId = "{}"'.format(mealId)
 
     current_app.logger.info(query)
 
@@ -122,7 +122,7 @@ def add_new_meal():
         price = data.get('price')
 
         # Constructing the INSERT query
-        query = 'INSERT INTO meals (mealId, name, price) VALUES (%s, %s, %s)'
+        query = 'INSERT INTO Meals (mealId, name, price) VALUES (%s, %s, %s)'
         cursor = db.get_db().cursor()
         cursor.execute(query, (mealId, name, price))
         db.get_db().commit()
