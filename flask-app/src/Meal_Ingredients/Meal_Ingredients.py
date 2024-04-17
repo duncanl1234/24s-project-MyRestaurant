@@ -1,19 +1,19 @@
 ########################################################
-# Sample SupplierOrder_Ingredients blueprint of endpoints
+# Sample Meal_Ingredients blueprint of endpoints
 ########################################################
 from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
 
 
-SupplierOrder_Ingredients = Blueprint('SupplierOrder_Ingredients', __name__)
+Meal_Ingredients = Blueprint('Meal_Ingredients', __name__)
 
-################ /SupplierOrder_Ingredients endpoint ################
-# (get) retrieve all SupplierOrder_Ingredients
-@SupplierOrder_Ingredients.route('/SupplierOrder_Ingredients', methods=['GET'])
-def get_SupplierOrder_Ingredients():
+################ /supplyOrder endpoint ################
+# (get) retrieve all Meal_Ingredients
+@Meal_Ingredients.route('/Meal_Ingredients', methods=['GET'])
+def get_Meal_Ingredients():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from SupplierOrder_Ingredients')
+    cursor.execute('select * from Meal_Ingredients')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -24,20 +24,20 @@ def get_SupplierOrder_Ingredients():
     the_response.mimetype = 'application/json'
     return the_response
 
-# (post) add new SupplierOrder_Ingredient
-@SupplierOrder_Ingredients.route('/SupplierOrder_Ingredients', methods=['POST'])
-def add_new_SupplierOrder_Ingredients():
+# (post) add new Meal_Ingredient
+@Meal_Ingredients.route('/Meal_Ingredients', methods=['POST'])
+def add_new_Meal_Ingredients():
     # collecting data from the request object 
     the_data = request.json
     current_app.logger.info(the_data)
 
     #extracting the variable
-    supplyOrderId = the_data['supplyOrderId']
+    mealId = the_data['mealId']
     ingredientId = the_data['ingredientId']
 
     # Constructing the query
-    query = 'insert into SupplierOrder_Ingredients (supplyOrderId, ingredientId) values ("'
-    query += supplyOrderId + '", "'
+    query = 'insert into Meal_Ingredients (mealId, ingredientId) values ("'
+    query += mealId + '", "'
     query += ingredientId + ')'
     current_app.logger.info(query)
 
@@ -48,12 +48,12 @@ def add_new_SupplierOrder_Ingredients():
     
     return 'Success!'
 
-################ /SupplierOrder_Ingredients/{supplyOrderId} endpoint ################
-# (get) Retrieve SupplierOrder_Ingredients for a specific supplyOrder
-@SupplierOrder_Ingredients.route('/SupplierOrder_Ingredients/<supplyOrderId>', methods=['GET'])
-def get_SupplierOrder_IngredientByOrderer(supplyOrderId):
+################ /Meal_Ingredients/{mealId} endpoint ################
+# (get) Retrieve supplyOrders made by one employee
+@Meal_Ingredients.route('/Meal_Ingredients/<mealId>', methods=['GET'])
+def get_Meal_IngredientByMeal(mealId):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from SupplierOrder_Ingredients where supplyOrderId = {0}'.format(supplyOrderId))
+    cursor.execute('select * from Meal_Ingredients where mealId = {0}'.format(mealId))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -65,20 +65,20 @@ def get_SupplierOrder_IngredientByOrderer(supplyOrderId):
     return the_response
 
 
-# (PUT) Update SupplierOrder_Ingredients details
-@SupplierOrder_Ingredients.route('/SupplierOrder_Ingredients/<supplyOrderId>', methods=['PUT'])
-def update_SupplierOrder_Ingredients(supplyOrderId):
+# (PUT) Update Meal_Ingredients details for a meal
+@Meal_Ingredients.route('/Meal_Ingredients/<mealId>', methods=['PUT'])
+def update_Meal_Ingredients(mealId):
     try:
         # Collecting data from the request object
         the_data = request.json
 
         # Extracting the variables to be updated
-        supplyOrderId = the_data.get('supplyOrderId')
+        mealId = the_data.get('mealId')
         ingredientId = the_data.get('ingredientId')
 
         # Constructing the update query
-        query = 'UPDATE SupplierOrder_Ingredients SET supplyOrderId = %s, ingredientId = %s WHERE supplyOrderId = %s'
-        values = (supplyOrderId, ingredientId, supplyOrderId)
+        query = 'UPDATE Meal_Ingredients SET mealId = %s, ingredientId = %s WHERE mealId = %s'
+        values = (mealId, ingredientId, mealId)
 
         current_app.logger.info(query)
 
@@ -87,19 +87,19 @@ def update_SupplierOrder_Ingredients(supplyOrderId):
         cursor.execute(query, values)
         db.get_db().commit()
 
-        return 'SupplyOrder_Ingredient {} updated successfully!'.format(supplyOrderId), 200
+        return 'Meal Ingredient {} updated successfully!'.format(mealId), 200
     except Exception as e:
         current_app.logger.error(str(e))
         return jsonify({'error': 'Internal Server Error'}), 500
 
 
-# (DELETE) Delete a SupplierOrder_Ingredient
-@SupplierOrder_Ingredients.route('/SupplierOrder_Ingredients/<supplyOrderId>', methods=['DELETE'])
-def delete_SupplierOrder_Ingredients(supplyOrderId):
+# (DELETE) Delete a Meal_Ingredient
+@Meal_Ingredients.route('/Meal_Ingredients/<mealId>', methods=['DELETE'])
+def delete_Meal_Ingredients(mealId):
     try:
         # Constructing the delete query
-        query = 'DELETE FROM SupplierOrder_Ingredients WHERE supplyOrderId = %s'
-        values = (supplyOrderId,)
+        query = 'DELETE FROM Meal_Ingredients WHERE mealId = %s'
+        values = (mealId,)
 
         current_app.logger.info(query)
 
@@ -108,18 +108,18 @@ def delete_SupplierOrder_Ingredients(supplyOrderId):
         cursor.execute(query, values)
         db.get_db().commit()
 
-        return 'SupplyOrder_Ingredient {} deleted successfully!'.format(supplyOrderId), 200
+        return 'Meal Ingredient {} deleted successfully!'.format(mealId), 200
     except Exception as e:
         current_app.logger.error(str(e))
         return jsonify({'error': 'Internal Server Error'}), 500
 
 
-# (GET) Retrieve details of a specific ingredientId
-@SupplierOrder_Ingredients.route('/SupplierOrder_Ingredients/<ingredientId>', methods=['GET'])
-def get_SupplierOrder_IngredientsDetails(ingredientId):
+# (GET) Retrieve details of a specific Meal Ingredient by ingredient
+@Meal_Ingredients.route('/Meal_Ingredients/<ingredientId>', methods=['GET'])
+def get_Meal_IngredientsDetails(ingredientId):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute('SELECT * FROM SupplierOrder_Ingredients WHERE ingredientId = %s', (ingredientId,))
+        cursor.execute('SELECT * FROM Meal_Ingredients WHERE ingredientId = %s', (ingredientId,))
         row_headers = [x[0] for x in cursor.description]
         json_data = []
         theData = cursor.fetchall()
