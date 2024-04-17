@@ -13,7 +13,7 @@ tables = Blueprint('tables', __name__)
 @tables.route('/tables', methods=['GET'])
 def get_tables():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from tables')
+    cursor.execute('select * from Tables')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -38,7 +38,7 @@ def add_new_table():
     fohId = the_data['fohId']
 
     # Constructing the query
-    query = 'insert into tables (tableNum, numSeats, isReserved, fohId) values ("'
+    query = 'insert into Tables (tableNum, numSeats, isReserved, fohId) values ("'
     query += str(tableNum) + '", "'
     query += str(numSeats) + '", "'
     query += str(isReserved) + '", '
@@ -66,7 +66,7 @@ def update_table(tableNum):
         fohId = the_data.get('fohId')
 
         # Constructing the update query
-        query = 'UPDATE tables SET '
+        query = 'UPDATE Tables SET '
         updates = []
         if numSeats is not None:
             updates.append('numSeats = "{}"'.format(numSeats))
@@ -95,7 +95,7 @@ def update_table(tableNum):
 def delete_table(tableNum):
     try:
         # Constructing the delete query
-        query = 'DELETE FROM tables WHERE tableNum = "{}"'.format(tableNum)
+        query = 'DELETE FROM Tables WHERE tableNum = "{}"'.format(tableNum)
 
         current_app.logger.info(query)
 
@@ -115,7 +115,7 @@ def delete_table(tableNum):
 def get_table_details(tableNum):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute('SELECT * FROM tables WHERE tableNum = {}'.format(tableNum))
+        cursor.execute('SELECT * FROM Tables WHERE tableNum = {}'.format(tableNum))
         row = cursor.fetchone()
         if row:
             table_details = {
@@ -149,7 +149,7 @@ def merge_tables():
         # Assuming all tables have the same number of seats, reservation status, and FOH ID
         # Fetching the common attributes from the first table
         cursor = db.get_db().cursor()
-        cursor.execute('SELECT numSeats, isReserved, fohId FROM tables WHERE tableNum = %s', (table_nums[0],))
+        cursor.execute('SELECT numSeats, isReserved, fohId FROM Tables WHERE tableNum = %s', (table_nums[0],))
         first_table_data = cursor.fetchone()
 
         if first_table_data is None:
@@ -159,7 +159,7 @@ def merge_tables():
 
         # Updating the other tables to match the attributes of the first table
         for table_num in table_nums[1:]:
-            cursor.execute('UPDATE tables SET numSeats = %s, isReserved = %s, fohId = %s WHERE tableNum = %s',
+            cursor.execute('UPDATE Tables SET numSeats = %s, isReserved = %s, fohId = %s WHERE tableNum = %s',
                            (num_seats, is_reserved, foh_id, table_num))
             if cursor.rowcount == 0:
                 return jsonify({'error': 'Table {} not found'.format(table_num)}), 404

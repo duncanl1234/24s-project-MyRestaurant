@@ -6,14 +6,14 @@ import json
 from src import db
 
 
-supplyOrder = Blueprint('SupplyOrder', __name__)
+supplyOrder = Blueprint('supplyOrder', __name__)
 
 ################ /supplyOrder endpoint ################
 # (get) retrieve all supplyOrders
-@supplyOrder.route('/SupplyOrder', methods=['GET'])
+@supplyOrder.route('/supplyOrder', methods=['GET'])
 def get_supplyOrder():
     cursor = db.get_db().cursor()
-    cursor.execute('select * from supplyOrder')
+    cursor.execute('select * from SupplyOrder')
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -25,7 +25,7 @@ def get_supplyOrder():
     return the_response
 
 # (post) add new supplyOrder
-@supplyOrder.route('/SupplyOrder', methods=['POST'])
+@supplyOrder.route('/supplyOrder', methods=['POST'])
 def add_new_supplyOrder():
     # collecting data from the request object 
     the_data = request.json
@@ -52,10 +52,10 @@ def add_new_supplyOrder():
 
 ################ /supplyOrder/{supplyOrderId} endpoint ################
 # (get) Retrieve supplyOrders made by one employee
-@supplyOrder.route('/SupplyOrder/<ordererId>', methods=['GET'])
+@supplyOrder.route('/supplyOrder/<ordererId>', methods=['GET'])
 def get_supplyOrderByOrderer(ordererId):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from supplyOrder where ordererId = {0}'.format(ordererId))
+    cursor.execute('select * from SupplyOrder where ordererId = {0}'.format(ordererId))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -68,7 +68,7 @@ def get_supplyOrderByOrderer(ordererId):
 
 
 # (PUT) Update supply order details
-@supplyOrder.route('/SupplyOrder/<supplyOrderId>', methods=['PUT'])
+@supplyOrder.route('/supplyOrder/<supplyOrderId>', methods=['PUT'])
 def update_supplyOrder(supplyOrderId):
     try:
         # Collecting data from the request object
@@ -96,7 +96,7 @@ def update_supplyOrder(supplyOrderId):
 
 
 # (DELETE) Delete a supply order
-@supplyOrder.route('/SupplyOrder/<supplyOrderId>', methods=['DELETE'])
+@supplyOrder.route('/supplyOrder/<supplyOrderId>', methods=['DELETE'])
 def delete_supplyOrder(supplyOrderId):
     try:
         # Constructing the delete query
@@ -117,7 +117,7 @@ def delete_supplyOrder(supplyOrderId):
 
 
 # (GET) Retrieve details of a specific supply order
-@supplyOrder.route('/SupplyOrder/<supplyOrderId>', methods=['GET'])
+@supplyOrder.route('/supplyOrder/<supplyOrderId>', methods=['GET'])
 def get_supplyOrderDetails(supplyOrderId):
     try:
         cursor = db.get_db().cursor()
