@@ -33,14 +33,14 @@ def add_new_order():
     current_app.logger.info(the_data)
 
     #extracting the variable
-    orderID = the_data['orderID']
+    orderID = the_data['orderId']
     isComplete = the_data['isComplete']
     tableNum = the_data['tableNum']
     mealId = the_data['mealId']
     preparerId = the_data['preparerId']
 
     # Constructing the query
-    query = 'insert into Orders (orderID, isComplete, tableNum, mealId, preparerId) values ("'
+    query = 'insert into Orders (orderId, isComplete, tableNum, mealId, preparerId) values ("'
     query += orderID + '", "'
     query += str(isComplete) + '", "'
     query += str(tableNum) + '", '
