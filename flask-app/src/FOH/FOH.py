@@ -97,11 +97,11 @@ def update_employee_info(fohId):
 
 # (DELETE) Delete data of fired employee
 @FOH_emp.route('/FOH_emp/<fohId>', methods=['DELETE'])
-def delete_employee(empID):
+def delete_employee(fohId):
     try:
         cursor = db.get_db().cursor()
         query = 'DELETE FROM FOH_emp WHERE fohId=%s'
-        cursor.execute(query, (empID,))
+        cursor.execute(query, (fohId,))
         
         if cursor.rowcount == 0:
             return jsonify({'error': 'Employee not found'}), 404
@@ -115,14 +115,14 @@ def delete_employee(empID):
 
 # (PUT) Update employee pay rate
 @FOH_emp.route('/FOH_emp/<fohId>/payRate', methods=['PUT'])
-def update_employee_pay_rate(empID):
+def update_employee_pay_rate(fohId):
     try:
         # get the new pay rate from the request JSON data
         new_pay_rate = request.json.get('payRate')
 
         cursor = db.get_db().cursor()
         query = 'UPDATE FOH_emp SET payRate=%s WHERE fohId=%s'
-        cursor.execute(query, (new_pay_rate, empID))
+        cursor.execute(query, (new_pay_rate, fohId))
 
         if cursor.rowcount == 0:
             return jsonify({'error': 'Employee not found'}), 404
