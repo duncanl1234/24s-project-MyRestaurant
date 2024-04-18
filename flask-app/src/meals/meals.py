@@ -40,7 +40,7 @@ def add_new_table():
     query = 'insert into Meals (mealId, name, price) values ("'
     query += mealId + '", "'
     query += name + '", "'
-    query += str(price) + ')'
+    query += price + ')'
     current_app.logger.info(query)
 
     # executing and committing the insert statement 
