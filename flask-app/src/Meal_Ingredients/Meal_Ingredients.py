@@ -38,7 +38,7 @@ def add_new_Meal_Ingredients():
     # Constructing the query
     query = 'insert into Meal_Ingredients (mealId, ingredientId) values ("'
     query += mealId + '", "'
-    query += ingredientId + ')'
+    query += ingredientId + '")'
     current_app.logger.info(query)
 
     # executing and committing the insert statement 

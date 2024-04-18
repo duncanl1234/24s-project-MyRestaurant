@@ -49,7 +49,7 @@ def add_new_hire():
     query += endTime + '", '
     query += startTime + '", '
     query += fName + '", '
-    query += lName + ')'
+    query += lName + '")'
     current_app.logger.info(query)
 
     # executing and committing the insert statement 

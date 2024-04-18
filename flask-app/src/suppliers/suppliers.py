@@ -53,7 +53,7 @@ def add_new_supplier():
 @suppliers.route('/suppliers/<supplierID>', methods=['GET'])
 def get_supplierID(supplierID):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from Suppliers where id = {0}'.format(supplierID))
+    cursor.execute('select * from Suppliers where supplierID = {0}'.format(supplierID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()

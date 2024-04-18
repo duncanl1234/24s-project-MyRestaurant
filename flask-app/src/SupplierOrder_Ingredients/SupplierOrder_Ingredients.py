@@ -38,7 +38,7 @@ def add_new_SupplierOrder_Ingredients():
     # Constructing the query
     query = 'insert into SupplierOrder_Ingredients (supplyOrderId, ingredientId) values ("'
     query += supplyOrderId + '", "'
-    query += ingredientId + ')'
+    query += ingredientId + '")'
     current_app.logger.info(query)
 
     # executing and committing the insert statement 
