@@ -59,12 +59,12 @@ def add_new_hire():
 
     return 'Success!'
 
-################ /FOH_emp/{empID} endpoint ################
+################ /FOH_emp/{fohId} endpoint ################
 # (get) Get an employee's info
-@FOH_emp.route('/FOH_emp/<empID>', methods=['GET'])
-def get_employee_info(empID):
+@FOH_emp.route('/FOH_emp/<fohId>', methods=['GET'])
+def get_employee_info(fohId):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from FOH_emp where id = {0}'.format(empID))
+    cursor.execute('select * from FOH_emp where fohId = {0}'.format(fohId))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -76,14 +76,14 @@ def get_employee_info(empID):
     return the_response
 
 # (PUT) Update employee info
-@FOH_emp.route('/FOH_emp/<empID>', methods=['PUT'])
-def update_employee_info(empID):
+@FOH_emp.route('/FOH_emp/<fohId>', methods=['PUT'])
+def update_employee_info(fohId):
     try:
         employee_data = request.json
         
         cursor = db.get_db().cursor()
         query = 'UPDATE FOH_emp SET fohSupervisorID=%s, payRate=%s, endTime=%s, startTime=%s, fName=%s, lName=%s WHERE fohID=%s'
-        cursor.execute(query, (employee_data['fohSupervisorID'], employee_data['payRate'], employee_data['endTime'], employee_data['startTime'], employee_data['fName'], employee_data['lName'], empID))
+        cursor.execute(query, (employee_data['fohSupervisorID'], employee_data['payRate'], employee_data['endTime'], employee_data['startTime'], employee_data['fName'], employee_data['lName'], fohId))
         
         if cursor.rowcount == 0:
             return jsonify({'error': 'Employee not found'}), 404
@@ -96,11 +96,11 @@ def update_employee_info(empID):
 
 
 # (DELETE) Delete data of fired employee
-@FOH_emp.route('/FOH_emp/<empID>', methods=['DELETE'])
+@FOH_emp.route('/FOH_emp/<fohId>', methods=['DELETE'])
 def delete_employee(empID):
     try:
         cursor = db.get_db().cursor()
-        query = 'DELETE FROM FOH_emp WHERE fohID=%s'
+        query = 'DELETE FROM FOH_emp WHERE fohId=%s'
         cursor.execute(query, (empID,))
         
         if cursor.rowcount == 0:
@@ -114,14 +114,14 @@ def delete_employee(empID):
 
 
 # (PUT) Update employee pay rate
-@FOH_emp.route('/FOH_emp/<empID>/payRate', methods=['PUT'])
+@FOH_emp.route('/FOH_emp/<fohId>/payRate', methods=['PUT'])
 def update_employee_pay_rate(empID):
     try:
         # get the new pay rate from the request JSON data
         new_pay_rate = request.json.get('payRate')
 
         cursor = db.get_db().cursor()
-        query = 'UPDATE FOH_emp SET payRate=%s WHERE fohID=%s'
+        query = 'UPDATE FOH_emp SET payRate=%s WHERE fohId=%s'
         cursor.execute(query, (new_pay_rate, empID))
 
         if cursor.rowcount == 0:
