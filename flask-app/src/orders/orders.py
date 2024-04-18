@@ -57,10 +57,10 @@ def add_new_order():
 
 ################ /orders/{orderID} endpoint ################
 # (get) Get order details
-@orders.route('/orders/<orderID>', methods=['GET'])
-def get_order_details(orderID):
+@orders.route('/orders/<orderId>', methods=['GET'])
+def get_order_details(orderId):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from Orders where id = {0}'.format(orderID))
+    cursor.execute('select * from Orders where orderId = {0}'.format(orderId))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -72,8 +72,8 @@ def get_order_details(orderID):
     return the_response
 
 # (put) Update order details
-@orders.route('/orders/<orderID>', methods=['PUT'])
-def update_order(orderID):
+@orders.route('/orders/<orderId>', methods=['PUT'])
+def update_order(orderId):
     # collecting data from the request object
     the_data = request.json
 
@@ -95,7 +95,7 @@ def update_order(orderID):
     if preparerId is not None:
         updates.append('preparerId = "{}"'.format(preparerId))
     query += ', '.join(updates)
-    query += ' WHERE orderID = "{}"'.format(orderID)
+    query += ' WHERE orderId = "{}"'.format(orderId)
 
     current_app.logger.info(query)
 
@@ -104,13 +104,13 @@ def update_order(orderID):
     cursor.execute(query)
     db.get_db().commit()
 
-    return 'Order {} updated successfully!'.format(orderID)
+    return 'Order {} updated successfully!'.format(orderId)
 
 # (delete) Delete order
-@orders.route('/orders/<orderID>', methods=['DELETE'])
-def delete_order(orderID):
+@orders.route('/orders/<orderId>', methods=['DELETE'])
+def delete_order(orderId):
     # Constructing the delete query
-    query = 'DELETE FROM Orders WHERE orderID = "{}"'.format(orderID)
+    query = 'DELETE FROM Orders WHERE orderId = "{}"'.format(orderId)
 
     current_app.logger.info(query)
 
@@ -119,7 +119,7 @@ def delete_order(orderID):
     cursor.execute(query)
     db.get_db().commit()
 
-    return 'Order {} deleted successfully!'.format(orderID)
+    return 'Order {} deleted successfully!'.format(orderId)
 
 
 # (GET) Get all orders for a specific table
