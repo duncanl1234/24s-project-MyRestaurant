@@ -43,8 +43,8 @@ def add_new_order():
     query = 'insert into Orders (orderId, isComplete, tableNum, mealId, preparerId) values ("'
     query += orderID + '", "'
     query += str(isComplete) + '", "'
-    query += str(tableNum) + '", '
-    query += mealId + '", '
+    query += str(tableNum) + '", "'
+    query += mealId + '", "'
     query += preparerId + '")'
     current_app.logger.info(query)
 
