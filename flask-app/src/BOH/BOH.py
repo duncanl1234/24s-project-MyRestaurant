@@ -34,7 +34,7 @@ def add_new_hire():
 
     #extracting the variable
     bohID = the_data['bohID']
-    bohSupervisorID = the_data['bohSupervisorID']
+    bohSupervisorId = the_data['bohSupervisorId']
     payRate = the_data['payRate']
     endTime = the_data['endTime']
     startTime = the_data['startTime']
@@ -42,13 +42,13 @@ def add_new_hire():
     lName = the_data['lName']
 
     # constructing the query
-    query = 'insert into BOH_emp (bohID, bohSupervisorID, payRate, endTime, startTime, fName, lName) values ("'
+    query = 'insert into BOH_emp (bohID, bohSupervisorId, payRate, endTime, startTime, fName, lName) values ("'
     query += bohID + '", "'
-    query += bohSupervisorID + '", "'
-    query += payRate + '", '
-    query += endTime + '", '
-    query += startTime + '", '
-    query += fName + '", '
+    query += bohSupervisorId + '", "'
+    query += str(payRate) + '", "'
+    query += endTime + '", "'
+    query += startTime + '", "'
+    query += fName + '", "'
     query += lName + '")'
     current_app.logger.info(query)
 
@@ -82,8 +82,8 @@ def update_employee_info(bohID):
         employee_data = request.json
         
         cursor = db.get_db().cursor()
-        query = 'UPDATE BOH_emp SET bohSupervisorID=%s, payRate=%s, endTime=%s, startTime=%s, fName=%s, lName=%s WHERE bohID=%s'
-        cursor.execute(query, (employee_data['bohSupervisorID'], employee_data['payRate'], employee_data['endTime'], employee_data['startTime'], employee_data['fName'], employee_data['lName'], bohID))
+        query = 'UPDATE BOH_emp SET bohSupervisorId=%s, payRate=%s, endTime=%s, startTime=%s, fName=%s, lName=%s WHERE bohID=%s'
+        cursor.execute(query, (employee_data['bohSupervisorId'], employee_data['payRate'], employee_data['endTime'], employee_data['startTime'], employee_data['fName'], employee_data['lName'], bohID))
         
         if cursor.rowcount == 0:
             return jsonify({'error': 'Employee not found'}), 404

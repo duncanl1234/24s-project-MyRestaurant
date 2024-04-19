@@ -45,10 +45,10 @@ def add_new_hire():
     query = 'insert into FOH_emp (fohId, fohSupervisorId, payRate, endTime, startTime, fName, lName) values ("'
     query += fohId + '", "'
     query += fohSupervisorId + '", "'
-    query += str(payRate)+ '", '
-    query += endTime + '", '
-    query += startTime + '", '
-    query += fName + '", '
+    query += str(payRate)+ '", "'
+    query += endTime + '", "'
+    query += startTime + '", "'
+    query += fName + '", "'
     query += lName + '")'
     current_app.logger.info(query)
 
@@ -83,7 +83,7 @@ def update_employee_info(fohId):
         
         cursor = db.get_db().cursor()
         query = 'UPDATE FOH_emp SET fohSupervisorId=%s, payRate=%s, endTime=%s, startTime=%s, fName=%s, lName=%s WHERE fohId=%s'
-        cursor.execute(query, (employee_data['fohSupervisorId'], employee_data['payRate'], employee_data['endTime'], employee_data['startTime'], employee_data['fName'], employee_data['lName'], empID))
+        cursor.execute(query, (employee_data['fohSupervisorId'], employee_data['payRate'], employee_data['endTime'], employee_data['startTime'], employee_data['fName'], employee_data['lName'], fohId))
         
         if cursor.rowcount == 0:
             return jsonify({'error': 'Employee not found'}), 404
