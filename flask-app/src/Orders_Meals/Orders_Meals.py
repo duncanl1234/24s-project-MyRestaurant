@@ -9,11 +9,11 @@ from src import db
 Orders_Meals = Blueprint('Orders_Meals', __name__)
 
 ################ /Orders_Meals endpoint ################
-@Orders_Meals.route('/orders/<orderID>/meals/<mealID>', methods=['POST'])
+@Orders_Meals.route('/orders/<orderId>/meals/<mealId>', methods=['POST'])
 def add_meal_to_order(orderID, mealID):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute('INSERT INTO Orders_Meals (orderID, mealID) VALUES (%s, %s)', (orderID, mealID))
+        cursor.execute('INSERT INTO Orders_Meals (orderId, mealId) VALUES (%s, %s)', (orderID, mealID))
         db.get_db().commit()
         return 'Meal added to order successfully!', 201
     except Exception as e:
@@ -21,11 +21,11 @@ def add_meal_to_order(orderID, mealID):
         return jsonify({'error': 'Internal Server Error'}), 500
 
 
-@Orders_Meals.route('/orders/<orderID>/meals/<mealID>', methods=['DELETE'])
+@Orders_Meals.route('/orders/<orderId>/meals/<mealId>', methods=['DELETE'])
 def remove_meal_from_order(orderID, mealID):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute('DELETE FROM Orders_Meals WHERE orderID = %s AND mealID = %s', (orderID, mealID))
+        cursor.execute('DELETE FROM Orders_Meals WHERE orderId = %s AND mealId = %s', (orderID, mealID))
         db.get_db().commit()
         return 'Meal removed from order successfully!', 200
     except Exception as e:
@@ -40,8 +40,8 @@ def get_meals_for_order(order_id):
         cursor.execute('''
             SELECT m.mealID, m.name, m.price
             FROM Meals AS m
-            JOIN Orders_Meals AS om ON m.mealID = om.mealID
-            WHERE om.orderID = %s
+            JOIN Orders_Meals AS om ON m.mealId = om.mealId
+            WHERE om.orderId = %s
         ''', (order_id,))
         meals = cursor.fetchall()
 
@@ -49,7 +49,7 @@ def get_meals_for_order(order_id):
             return 'No meals found for this order.', 404
 
         # Convert meals to a list of dictionaries for JSON serialization
-        meals_data = [{'mealID': meal[0], 'name': meal[1], 'price': meal[2]} for meal in meals]
+        meals_data = [{'mealId': meal[0], 'name': meal[1], 'price': meal[2]} for meal in meals]
         
         return jsonify(meals_data), 200
     except Exception as e:
@@ -62,7 +62,7 @@ def update_meal_quantity_for_order(order_id, meal_id):
     try:
         # Check if the meal exists in the order
         cursor = db.get_db().cursor()
-        cursor.execute('SELECT * FROM Orders_Meals WHERE orderID = %s AND mealID = %s', (order_id, meal_id))
+        cursor.execute('SELECT * FROM Orders_Meals WHERE orderId = %s AND mealId = %s', (order_id, meal_id))
         if not cursor.fetchone():
             return 'Meal not found in order.', 404
 
@@ -70,7 +70,7 @@ def update_meal_quantity_for_order(order_id, meal_id):
         data = request.json
         new_quantity = data.get('quantity')
 
-        cursor.execute('UPDATE Orders_Meals SET quantity = %s WHERE orderID = %s AND mealID = %s', (new_quantity, order_id, meal_id))
+        cursor.execute('UPDATE Orders_Meals SET quantity = %s WHERE orderId = %s AND mealId = %s', (new_quantity, order_id, meal_id))
         db.get_db().commit()
 
         return 'Meal quantity updated successfully for the order!', 200
@@ -84,10 +84,10 @@ def get_orders_containing_meal(meal_id):
     try:
         cursor = db.get_db().cursor()
         cursor.execute('''
-            SELECT o.orderID, o.isComplete, o.tableNum, o.preparerId
+            SELECT o.orderId, o.isComplete, o.tableNum, o.preparerId
             FROM Orders AS o
-            JOIN Orders_Meals AS om ON o.orderID = om.orderID
-            WHERE om.mealID = %s
+            JOIN Orders_Meals AS om ON o.orderId = om.orderId
+            WHERE om.mealId = %s
         ''', (meal_id,))
         orders = cursor.fetchall()
 
@@ -95,7 +95,7 @@ def get_orders_containing_meal(meal_id):
             return 'No orders found containing this meal.', 404
 
         # Convert orders to a list of dictionaries for JSON serialization
-        orders_data = [{'orderID': order[0], 'isComplete': order[1], 'tableNum': order[2], 'preparerId': order[3]} for order in orders]
+        orders_data = [{'orderId': order[0], 'isComplete': order[1], 'tableNum': order[2], 'preparerId': order[3]} for order in orders]
         
         return jsonify(orders_data), 200
     except Exception as e:
@@ -108,9 +108,9 @@ def get_orders_for_preparer(preparer_id):
     try:
         cursor = db.get_db().cursor()
         cursor.execute('''
-            SELECT o.orderID, o.isComplete, o.tableNum, om.mealID, om.quantity
+            SELECT o.orderId, o.isComplete, o.tableNum, om.mealId, om.quantity
             FROM Orders AS o
-            JOIN Orders_Meals AS om ON o.orderID = om.orderID
+            JOIN Orders_Meals AS om ON o.orderId = om.orderId
             WHERE o.preparerId = %s
         ''', (preparer_id,))
         orders = cursor.fetchall()
@@ -123,8 +123,8 @@ def get_orders_for_preparer(preparer_id):
         for order in orders:
             order_id = order[0]
             if order_id not in orders_data:
-                orders_data[order_id] = {'orderID': order_id, 'isComplete': order[1], 'tableNum': order[2], 'meals': []}
-            orders_data[order_id]['meals'].append({'mealID': order[3], 'quantity': order[4]})
+                orders_data[order_id] = {'orderId': order_id, 'isComplete': order[1], 'tableNum': order[2], 'meals': []}
+            orders_data[order_id]['meals'].append({'mealId': order[3], 'quantity': order[4]})
         
         return jsonify(list(orders_data.values())), 200
     except Exception as e:

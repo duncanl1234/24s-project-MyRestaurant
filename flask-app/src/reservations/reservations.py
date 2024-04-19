@@ -46,7 +46,7 @@ def add_new_reservation():
     query += phone + '", "'
     query += fname + '", "'
     query += lname + '", "'
-    query += str(tableNum) + ')'
+    query += str(tableNum) + '")'
     current_app.logger.info(query)
 
     # executing and committing the insert statement 
@@ -61,7 +61,7 @@ def add_new_reservation():
 @reservations.route('/reservations/<resID>', methods=['GET'])
 def get_resID(resID):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from Reservations where id = {0}'.format(resID))
+    cursor.execute('select * from Reservations where resID = {0}'.format(resID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -114,7 +114,7 @@ def update_reservation(resID):
 @reservations.route('/reservations/<resID>', methods=['DELETE'])
 def delete_reservation(resID):
     # Constructing the delete query
-    query = 'DELETE FROM Reservations WHERE mealId = "{}"'.format(resID)
+    query = 'DELETE FROM Reservations WHERE resID = "{}"'.format(resID)
 
     current_app.logger.info(query)
 
