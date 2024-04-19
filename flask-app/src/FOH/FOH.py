@@ -33,7 +33,7 @@ def add_new_hire():
     current_app.logger.info(the_data)
 
     #extracting the variable
-    fohID = the_data['fohID']
+    fohId = the_data['fohId']
     fohSupervisorID = the_data['fohSupervisorID']
     payRate = the_data['payRate']
     endTime = the_data['endTime']
@@ -42,8 +42,8 @@ def add_new_hire():
     lName = the_data['lName']
 
     # Constructing the query
-    query = 'insert into FOH_emp (fohID, fohSupervisorID, payRate, endTime, startTime, fName, lName) values ("'
-    query += fohID + '", "'
+    query = 'insert into FOH_emp (fohId, fohSupervisorID, payRate, endTime, startTime, fName, lName) values ("'
+    query += fohId + '", "'
     query += fohSupervisorID + '", "'
     query += payRate + '", '
     query += endTime + '", '
@@ -82,7 +82,7 @@ def update_employee_info(empID):
         employee_data = request.json
         
         cursor = db.get_db().cursor()
-        query = 'UPDATE FOH_emp SET fohSupervisorID=%s, payRate=%s, endTime=%s, startTime=%s, fName=%s, lName=%s WHERE fohID=%s'
+        query = 'UPDATE FOH_emp SET fohSupervisorID=%s, payRate=%s, endTime=%s, startTime=%s, fName=%s, lName=%s WHERE fohId=%s'
         cursor.execute(query, (employee_data['fohSupervisorID'], employee_data['payRate'], employee_data['endTime'], employee_data['startTime'], employee_data['fName'], employee_data['lName'], empID))
         
         if cursor.rowcount == 0:
@@ -100,7 +100,7 @@ def update_employee_info(empID):
 def delete_employee(empID):
     try:
         cursor = db.get_db().cursor()
-        query = 'DELETE FROM FOH_emp WHERE fohID=%s'
+        query = 'DELETE FROM FOH_emp WHERE fohId=%s'
         cursor.execute(query, (empID,))
         
         if cursor.rowcount == 0:
@@ -121,7 +121,7 @@ def update_employee_pay_rate(empID):
         new_pay_rate = request.json.get('payRate')
 
         cursor = db.get_db().cursor()
-        query = 'UPDATE FOH_emp SET payRate=%s WHERE fohID=%s'
+        query = 'UPDATE FOH_emp SET payRate=%s WHERE fohId=%s'
         cursor.execute(query, (new_pay_rate, empID))
 
         if cursor.rowcount == 0:
